@@ -1,20 +1,27 @@
 package com.example.onlineshopping.service;
 
-import com.example.onlineshopping.domain.Role;
-import com.example.onlineshopping.domain.User;
-import com.example.onlineshopping.dto.CustomerDto;
+import com.example.onlineshopping.domain.*;
+import com.example.onlineshopping.dto.*;
 import com.example.onlineshopping.globalExecption.UserNotFoundException;
+import com.example.onlineshopping.repository.CustomerRepository;
+import com.example.onlineshopping.repository.RetailerRepository;
+import com.example.onlineshopping.repository.RoleRepository;
 import org.modelmapper.ModelMapper;
-import com.example.onlineshopping.dto.UserDto;
 import com.example.onlineshopping.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 
 
 @Service @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final CustomerRepository customerRepository;
+    private final RoleRepository roleRepository;
+    private final RetailerRepository retailerRepository;
     private final ModelMapper modelMapper;
+
     public UserDto findById(long id){
         User user = userRepository.findById(id).orElse(null);
         if(user == null) {
@@ -27,14 +34,25 @@ public class UserService {
         return modelMapper.map(userRepository.save(modelMapper.map(userDto, User.class)), UserDto.class);
     }
 
-//    public UserDto createCustomer(CustomerDto customerDto){
-//        User user = customerDto.getUser();
-//        user.setRole(new Role("CUSTOMER"));
-//        user = userRepository.save(user);
-//        customerDto.setUser(user);
-////        customerRepository.save(modelMapper.map(customerDto, Customer.class));
-//        return modelMapper.map(user, UserDto.class);
-//    }
+    public UserCustomerDto createCustomer(UserCustomerDto userDto){
+        Customer customer = userDto.getCustomer();
+        Role role = roleRepository.findByRole("CUSTOMER").orElse(null);
+        userDto.setRole(modelMapper.map(role, Role.class));
+        customer.setCart(new ShoppingCart());
+        customer = customerRepository.save(customer);
+        userDto.setCustomer(customer);
+        User user = userRepository.save(modelMapper.map(userDto, User.class));
+        return modelMapper.map(user, UserCustomerDto.class);
+    }
+
+    public UserRetailerDto createRetailer(UserRetailerDto userDto){
+        Retailer retailer = userDto.getRetailer();
+        Role role = roleRepository.findByRole("RETAILER").orElse(null);
+        userDto.setRole(modelMapper.map(role, Role.class));
+        retailer = retailerRepository.save(retailer);
+        User user =  userRepository.save(modelMapper.map(userDto, User.class));
+        return modelMapper.map(user, UserRetailerDto.class);
+    }
 
     public void deleteUser(UserDto userDto){
         userRepository.delete(modelMapper.map(userDto, User.class));

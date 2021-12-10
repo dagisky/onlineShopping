@@ -1,6 +1,7 @@
 package com.example.onlineshopping.dto;
 
 import com.example.onlineshopping.domain.Order;
+import com.example.onlineshopping.domain.Product;
 import com.example.onlineshopping.domain.ShoppingCart;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,4 +17,5 @@ public class ItemDto implements Serializable {
     private  double price;
     private ShoppingCart cart;
     private Order order;
+    private Product product;
 }

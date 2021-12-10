@@ -18,7 +18,6 @@ public class RetailerDto implements Serializable {
     private  long id;
     private  String firstName;
     private  String lastName;
-    private  int rating;
     private User user;
     private  List<Product> products;
 }

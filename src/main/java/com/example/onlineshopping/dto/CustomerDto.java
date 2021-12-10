@@ -1,6 +1,7 @@
 package com.example.onlineshopping.dto;
 
 import com.example.onlineshopping.domain.CustomerStatus;
+import com.example.onlineshopping.domain.ShoppingCart;
 import com.example.onlineshopping.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,5 +17,6 @@ public class CustomerDto implements Serializable {
     private  String firstName;
     private  String lastName;
     private  CustomerStatus status;
+    private ShoppingCart shoppingCart;
     private User user;
 }
