@@ -15,6 +15,5 @@ import java.util.List;
 @NoArgsConstructor
 public class ShoppingCartDto implements Serializable {
     private  long id;
-    private  List<Item> items;
-    private Customer customer;
+    private  List<ItemDto> itemDtos;
 }
