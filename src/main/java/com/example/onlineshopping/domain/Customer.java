@@ -18,8 +18,6 @@ public class Customer{
     private long id;
     private String firstName;
     private String lastName;
-    @Enumerated
-    private CustomerStatus status;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Order> orders;

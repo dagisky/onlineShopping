@@ -38,7 +38,7 @@ public class UserService {
         customer = customerRepository.save(customer);
         User user = modelMapper.map(userDto, User.class);
         user.setCustomer(customer);
-        user = userRepository.save(modelMapper.map(userDto, User.class));
+        user = userRepository.save(user);
         return modelMapper.map(user, UserCustomerDto.class);
     }
 
@@ -47,7 +47,9 @@ public class UserService {
         Role role = roleRepository.findByRole("RETAILER").orElse(null);
         userDto.setRole(modelMapper.map(role, Role.class));
         retailer = retailerRepository.save(retailer);
-        User user =  userRepository.save(modelMapper.map(userDto, User.class));
+        User user = modelMapper.map(userDto, User.class);
+        user.setRetailer(retailer);
+        user =  userRepository.save(user);
         return modelMapper.map(user, UserRetailerDto.class);
     }
 

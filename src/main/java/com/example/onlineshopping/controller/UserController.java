@@ -22,7 +22,7 @@ public class UserController {
     public ResponseEntity<EntityModel<UserDto>> findUserById(@PathVariable("id") long id){
         UserDto userDto = userService.findById(id);
         EntityModel<UserDto> userDtoEntityModel = EntityModel.of(userDto);
-        WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).findUserById(userDto.getId()));
+        WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).deleteUser(userDto.getId()));
         userDtoEntityModel.add(linkBuilder.withRel("self"));
         return ResponseEntity.ok().body(userDtoEntityModel);
     }
@@ -31,7 +31,7 @@ public class UserController {
     public ResponseEntity<EntityModel<UserDto>> createCustomer(@RequestBody UserCustomerDto userDto){
         UserCustomerDto userD = userService.createCustomer(userDto);
         EntityModel<UserDto> userDtoEntityModel = EntityModel.of(modelMapper.map(userD, UserDto.class));
-        WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).findUserById(userDto.getId()));
+        WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).findUserById(userD.getId()));
         userDtoEntityModel.add(linkBuilder.withRel("Find User"));
         return ResponseEntity.ok().body(userDtoEntityModel);
     }
@@ -40,12 +40,16 @@ public class UserController {
     public ResponseEntity<EntityModel<UserDto>> createRetailer(@RequestBody UserRetailerDto userDto){
         UserRetailerDto userD = userService.createRetailer(userDto);
         EntityModel<UserDto> userDtoEntityModel = EntityModel.of(modelMapper.map(userD, UserDto.class));
-        WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).findUserById(userDto.getId()));
+        WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).findUserById(userD.getId()));
         userDtoEntityModel.add(linkBuilder.withRel("Find a user"));
         return ResponseEntity.ok().body(userDtoEntityModel);
     }
 
-
+    @DeleteMapping("{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable("id") long id){
+        userService.deleteUserById(id);
+        return ResponseEntity.ok().body(null);
+    }
 
 
 

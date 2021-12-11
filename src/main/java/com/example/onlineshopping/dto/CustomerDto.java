@@ -1,8 +1,5 @@
 package com.example.onlineshopping.dto;
 
-import com.example.onlineshopping.domain.CustomerStatus;
-import com.example.onlineshopping.domain.ShoppingCart;
-import com.example.onlineshopping.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
