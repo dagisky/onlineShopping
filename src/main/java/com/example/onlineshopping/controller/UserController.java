@@ -1,6 +1,6 @@
 package com.example.onlineshopping.controller;
 
-import com.example.onlineshopping.dto.UserCustomerDto;
+
 import com.example.onlineshopping.dto.UserDto;
 import com.example.onlineshopping.dto.UserRetailerDto;
 import com.example.onlineshopping.service.UserService;
@@ -27,14 +27,7 @@ public class UserController {
         return ResponseEntity.ok().body(userDtoEntityModel);
     }
 
-    @PostMapping("/customers")
-    public ResponseEntity<EntityModel<UserDto>> createCustomer(@RequestBody UserCustomerDto userDto){
-        UserCustomerDto userD = userService.createCustomer(userDto);
-        EntityModel<UserDto> userDtoEntityModel = EntityModel.of(modelMapper.map(userD, UserDto.class));
-        WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).findUserById(userD.getId()));
-        userDtoEntityModel.add(linkBuilder.withRel("Find User"));
-        return ResponseEntity.ok().body(userDtoEntityModel);
-    }
+
 
     @PostMapping("/retailers")
     public ResponseEntity<EntityModel<UserDto>> createRetailer(@RequestBody UserRetailerDto userDto){

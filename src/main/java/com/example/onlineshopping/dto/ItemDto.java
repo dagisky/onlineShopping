@@ -15,7 +15,5 @@ import java.io.Serializable;
 public class ItemDto implements Serializable {
     private  long id;
     private  double price;
-    private ShoppingCart cart;
-    private Order order;
-    private Product product;
+    private ProductDto product;
 }
