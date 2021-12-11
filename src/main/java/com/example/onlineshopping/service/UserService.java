@@ -24,38 +24,31 @@ public class UserService {
 
     public UserDto findById(long id){
         User user = userRepository.findById(id).orElse(null);
-        if(user == null) {
+        if(user == null)
             throw new UserNotFoundException("User id-" + id+ " not found");
-        }
         return modelMapper.map(user, UserDto.class);
     }
 
-    public UserDto createUser(UserDto userDto){
-        return modelMapper.map(userRepository.save(modelMapper.map(userDto, User.class)), UserDto.class);
-    }
 
     public UserCustomerDto createCustomer(UserCustomerDto userDto){
-        Customer customer = userDto.getCustomer();
+        Customer customer = modelMapper.map(userDto.getCustomer(), Customer.class);
         Role role = roleRepository.findByRole("CUSTOMER").orElse(null);
         userDto.setRole(modelMapper.map(role, Role.class));
         customer.setCart(new ShoppingCart());
         customer = customerRepository.save(customer);
-        userDto.setCustomer(customer);
-        User user = userRepository.save(modelMapper.map(userDto, User.class));
+        User user = modelMapper.map(userDto, User.class);
+        user.setCustomer(customer);
+        user = userRepository.save(modelMapper.map(userDto, User.class));
         return modelMapper.map(user, UserCustomerDto.class);
     }
 
     public UserRetailerDto createRetailer(UserRetailerDto userDto){
-        Retailer retailer = userDto.getRetailer();
+        Retailer retailer = modelMapper.map(userDto.getRetailer(), Retailer.class);
         Role role = roleRepository.findByRole("RETAILER").orElse(null);
         userDto.setRole(modelMapper.map(role, Role.class));
         retailer = retailerRepository.save(retailer);
         User user =  userRepository.save(modelMapper.map(userDto, User.class));
         return modelMapper.map(user, UserRetailerDto.class);
-    }
-
-    public void deleteUser(UserDto userDto){
-        userRepository.delete(modelMapper.map(userDto, User.class));
     }
 
     public void deleteUserById(long id){

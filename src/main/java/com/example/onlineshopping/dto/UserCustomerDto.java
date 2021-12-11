@@ -16,5 +16,5 @@ public class UserCustomerDto {
     private  String phone;
     private  String email;
     private Role role;
-    private Customer customer;
+    private CustomerDto customer;
 }

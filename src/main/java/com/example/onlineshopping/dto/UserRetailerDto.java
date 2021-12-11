@@ -16,5 +16,5 @@ public class UserRetailerDto {
     private  String phone;
     private  String email;
     private  Role role;
-    private Retailer retailer;
+    private RetailerDto retailer;
 }

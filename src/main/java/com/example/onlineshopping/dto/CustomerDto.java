@@ -16,7 +16,4 @@ public class CustomerDto implements Serializable {
     private  long id;
     private  String firstName;
     private  String lastName;
-    private  CustomerStatus status;
-    private ShoppingCart shoppingCart;
-    private User user;
 }
