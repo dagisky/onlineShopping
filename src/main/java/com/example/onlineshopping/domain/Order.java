@@ -12,15 +12,15 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="customerOrder")
+@Table(name="cOrder")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private LocalDateTime orderDateTime;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-    private List<Item> items;
+    @ManyToMany
+    private List<Product> products;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     private Customer customer;

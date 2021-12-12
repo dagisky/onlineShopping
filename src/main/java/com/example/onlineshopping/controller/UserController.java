@@ -29,15 +29,6 @@ public class UserController {
 
 
 
-    @PostMapping("/retailers")
-    public ResponseEntity<EntityModel<UserDto>> createRetailer(@RequestBody UserRetailerDto userDto){
-        UserRetailerDto userD = userService.createRetailer(userDto);
-        EntityModel<UserDto> userDtoEntityModel = EntityModel.of(modelMapper.map(userD, UserDto.class));
-        WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).findUserById(userD.getId()));
-        userDtoEntityModel.add(linkBuilder.withRel("Find a user"));
-        return ResponseEntity.ok().body(userDtoEntityModel);
-    }
-
     @DeleteMapping("{id}")
     public ResponseEntity<?> deleteUser(@PathVariable("id") long id){
         userService.deleteUserById(id);

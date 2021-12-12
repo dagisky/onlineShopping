@@ -2,6 +2,8 @@ package com.example.onlineshopping.controller;
 
 import com.example.onlineshopping.dto.ProductDto;
 import com.example.onlineshopping.dto.RetailerDto;
+import com.example.onlineshopping.dto.UserDto;
+import com.example.onlineshopping.dto.UserRetailerDto;
 import com.example.onlineshopping.service.RetailerService;
 import com.example.onlineshopping.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -29,13 +31,19 @@ public class RetailerController {
         return ResponseEntity.ok().body(retailerDtoEntityModel);
     }
 
+    @PostMapping
+    public ResponseEntity<EntityModel<UserDto>> createRetailer(@RequestBody UserRetailerDto userDto){
+        UserRetailerDto userD = userService.createRetailer(userDto);
+        EntityModel<UserDto> userDtoEntityModel = EntityModel.of(modelMapper.map(userD, UserDto.class));
+        WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).findRetailerById(userD.getId()));
+        userDtoEntityModel.add(linkBuilder.withRel("Find a user"));
+        return ResponseEntity.ok().body(userDtoEntityModel);
+    }
+
     @GetMapping("{id}/products")
-    public ResponseEntity<EntityModel<List<ProductDto>>> findRetailerProducts(@PathVariable("id") long id){
+    public ResponseEntity<List<ProductDto>> findRetailerProducts(@PathVariable("id") long id){
         List<ProductDto> productDtos = retailerService.findRetailerProducts(id);
-        EntityModel<List<ProductDto>> productDtosEntityModel = EntityModel.of(productDtos);
-        WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).findRetailerById(id));
-        productDtosEntityModel.add(linkBuilder.withRel("get retailer"));
-        return ResponseEntity.ok().body(productDtosEntityModel);
+        return ResponseEntity.ok().body(productDtos);
     }
 
     @PostMapping("{id}/products")

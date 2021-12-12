@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -16,8 +17,7 @@ public class ShoppingCart {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @OneToMany(mappedBy = "cart",cascade = CascadeType.REMOVE)
-    private List<Item> items;
-
+    @ManyToMany(cascade = CascadeType.REFRESH)
+    private List<Product> products = new ArrayList<>();
 
 }

@@ -1,14 +1,10 @@
 package com.example.onlineshopping.controller;
 
-import com.example.onlineshopping.dto.CustomerDto;
-import com.example.onlineshopping.dto.ShoppingCartDto;
-import com.example.onlineshopping.dto.UserCustomerDto;
-import com.example.onlineshopping.dto.UserDto;
+import com.example.onlineshopping.dto.*;
 import com.example.onlineshopping.service.CustomerService;
 import com.example.onlineshopping.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +16,7 @@ public class CustomerController {
     private final UserService userService;
     private final ModelMapper modelMapper;
     private final CustomerService customerService;
+
 
     @GetMapping("{id}")
     public ResponseEntity<EntityModel<CustomerDto>> findCustomerById(@PathVariable("id") long id){
@@ -41,9 +38,21 @@ public class CustomerController {
 
     @GetMapping("{id}/cart")
     public ResponseEntity<ShoppingCartDto>  getShoppingCart(@PathVariable("id") long id){
-        ShoppingCartDto shoppingCartDto = customerService.findUserCart(id);
+        ShoppingCartDto shoppingCartDto = customerService.getUserCart(id);
         return ResponseEntity.ok().body(shoppingCartDto);
     }
+
+    @PostMapping("{id}/cart")
+    public ResponseEntity<ShoppingCartDto> addProductToCart(@PathVariable("id") long id, @RequestBody long pid){
+        ShoppingCartDto shoppingCartDto = customerService.addToCart(id, pid);
+        return ResponseEntity.ok().body(shoppingCartDto);
+    }
+
+//    @DeleteMapping("{id}/cart/{item_id}")
+//    public ResponseEntity<?> deleteCartItem(@PathVariable("id") long id){
+//        customerService.deleteCartItem(id);
+//        return ResponseEntity.ok().body(null);
+//    }
 
 
 

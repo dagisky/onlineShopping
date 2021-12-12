@@ -21,6 +21,7 @@ public class Customer{
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Order> orders;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "addressCustomer", fetch = FetchType.LAZY)
     private List<Address> addresses;
 
