@@ -1,40 +1,38 @@
 package com.example.onlineshopping.controller;
 
 
-import com.example.onlineshopping.dto.UserDto;
-import com.example.onlineshopping.dto.UserRetailerDto;
+import com.example.onlineshopping.domain.User;
+import com.example.onlineshopping.dto.UserAvailabilityRequest;
 import com.example.onlineshopping.service.UserService;
-import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin("http://localhost:3000")
 @RestController
-@RequestMapping("/users") @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;
-    private final ModelMapper modelMapper;
+    @Autowired
+    UserService userService;
 
-    @GetMapping("{id}")
-    public ResponseEntity<EntityModel<UserDto>> findUserById(@PathVariable("id") long id){
-        UserDto userDto = userService.findById(id);
-        EntityModel<UserDto> userDtoEntityModel = EntityModel.of(userDto);
-        WebMvcLinkBuilder linkBuilder = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).deleteUser(userDto.getId()));
-        userDtoEntityModel.add(linkBuilder.withRel("self"));
-        return ResponseEntity.ok().body(userDtoEntityModel);
+    @GetMapping("/users")
+    public Iterable<User> getAllUsers(){
+        return userService.getAllUsers();
     }
 
-
-
-    @DeleteMapping("{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable("id") long id){
-        userService.deleteUserById(id);
-        return ResponseEntity.ok().body(null);
+    @PostMapping("/users")
+    public User addUser(@RequestBody User user){
+        return  userService.addUser(user);
     }
 
+    @DeleteMapping("/users/{id}")
+    public void deleteUser(@PathVariable long id){
+          userService.deleteUser(id);
+    }
+
+    @GetMapping("/users/isUsernameAvailable")
+    public User isUsernameAvailable(@RequestBody UserAvailabilityRequest userAvailabilityRequest){
+        return userService.isUsernameAvailable(userAvailabilityRequest);
+    }
 
 
 }

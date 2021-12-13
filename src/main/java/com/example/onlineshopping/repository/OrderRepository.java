@@ -1,9 +1,17 @@
 package com.example.onlineshopping.repository;
 
-import com.example.onlineshopping.domain.Order;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public interface OrderRepository extends JpaRepository<Order, Long> {
+import com.example.onlineshopping.domain.Buyer;
+import com.example.onlineshopping.domain.Order;
+import com.example.onlineshopping.domain.Product;
+import org.springframework.data.repository.CrudRepository;
+import java.util.List;
+
+public interface OrderRepository extends CrudRepository<Order,Long> {
+
+    List<Order> findAllByBuyer(Buyer buyer);
+
+    Order findFirstByProduct(Product product);
+
+    List<Order> findAllByProduct(Product product);
 }

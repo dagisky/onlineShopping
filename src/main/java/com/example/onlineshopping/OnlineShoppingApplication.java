@@ -20,16 +20,4 @@ public class OnlineShoppingApplication {
     @Bean
     public ModelMapper modelMapper() {return new ModelMapper();}
 
-
-    @Bean
-    CommandLineRunner runner(RoleService roleService){
-        return args -> {
-            roleService.save(new Role("CUSTOMER"));
-            roleService.save(new Role("ADMIN"));
-            roleService.save(new Role("RETAILER"));
-
-        };
-    }
-
-
 }

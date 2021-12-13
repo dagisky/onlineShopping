@@ -1,5 +1,4 @@
 package com.example.onlineshopping.domain;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,15 +10,12 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ShoppingCart extends Audit{
+public class Invoice extends Audit{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @OneToOne(cascade = CascadeType.MERGE)
-    private Buyer buyer;
-
     @ManyToMany
-    private List<Product> products;
+    List<Order> orders;
 }

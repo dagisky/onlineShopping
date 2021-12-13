@@ -5,21 +5,25 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ShoppingCart extends Audit{
+public class Review extends Audit{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private long Id;
 
-    @OneToOne(cascade = CascadeType.MERGE)
+    @Column
+    private boolean isApproved;
+
+    @ManyToOne
     private Buyer buyer;
 
-    @ManyToMany
-    private List<Product> products;
+    private String content;
+
+    @ManyToOne
+    private Product product;
 }

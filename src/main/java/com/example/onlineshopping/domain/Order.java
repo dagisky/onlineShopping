@@ -1,32 +1,34 @@
 package com.example.onlineshopping.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.List;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
-@Table(name="cOrder")
-public class Order {
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name="Orders")
+public class Order extends Audit{
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private LocalDateTime orderDateTime;
 
-    @ManyToMany
-    private List<Product> products;
+    private OrderStatus status;
 
-    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-    private Customer customer;
+    @ManyToOne
+    @JoinColumn(name="buyer_id")
+    private Buyer buyer;
 
-    @Enumerated
-    private OrderStatus orderStatus;
-    @OneToOne(fetch = FetchType.EAGER)
-    private Bill bill;
+    @ManyToOne
+    private Product product;
+
+    @ManyToOne
+    private Address shippingAddress;
+
+    @ManyToOne
+    private Address billingAddress;
+    
 }

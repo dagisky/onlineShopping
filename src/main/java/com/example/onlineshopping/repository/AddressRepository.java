@@ -1,9 +1,12 @@
 package com.example.onlineshopping.repository;
 
-import com.example.onlineshopping.domain.Address;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public interface AddressRepository extends JpaRepository<Address, Long> {
+import com.example.onlineshopping.domain.Address;
+import com.example.onlineshopping.domain.Buyer;
+import org.springframework.data.repository.CrudRepository;
+import java.util.List;
+
+public interface AddressRepository extends CrudRepository<Address,Long> {
+
+    List<Address> findAllByBuyer(Buyer buyer);
 }
