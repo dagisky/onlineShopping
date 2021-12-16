@@ -129,6 +129,20 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     @Override
+    public List<Seller> unFollowSeller(long id, long seller_id) {
+        Buyer customer = buyerRepository.findById(id).get();
+        if(customer == null)
+            throw new UserNotFoundException("Buyer with id of :"+id+" Not found");
+        List<Seller> sellers = (List<Seller>) customer.getFollowing();
+        if(sellers == null)
+            sellers = new ArrayList<>();
+        sellers = sellers.stream().filter(s -> s.getId() != seller_id).collect(Collectors.toList());
+        customer.setFollowing((Set<Seller>) sellers);
+        buyerRepository.save(customer);
+        return sellers;
+    }
+
+    @Override
     public Invoice processShoppingCart(OrderAddressRequest orderAddresses, long id) {
         List<Product> products = findOrCreateShoppingCart(id);
         if(products.size() > 0){

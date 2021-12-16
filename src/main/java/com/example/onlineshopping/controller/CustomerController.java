@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @CrossOrigin("http://localhost:3000")
 @RestController
@@ -110,7 +107,7 @@ public class CustomerController {
         return buyerService.processShoppingCart(orderAddresses, id);
     }
 
-    @PostMapping("/buyers/{id}/sellers/{sellerId}/follow")
+    @GetMapping("/buyers/{id}/sellers/{sellerId}/follow")
     public List<Seller> followSeller(@PathVariable long id, @PathVariable long sellerId){
         /**
          * Input: id:
@@ -122,6 +119,20 @@ public class CustomerController {
         Seller seller = sellerService.getSellerById(sellerId);
         return buyerService.followSeller(id, seller);
     }
+
+    @GetMapping("/buyers/{id}/sellers/{sellerId}/unfollow")
+    public List<Seller> unFollowSeller(@PathVariable long id, @PathVariable long sellerId){
+        /**
+         * Input: id:
+         *      Customer [Buyer] id
+         *      sellerId: long Seller or Retailer id
+         * Returns:
+         *      List<Sellers>
+         * **/
+        return buyerService.unFollowSeller(id, sellerId);
+    }
+
+
 
 
 
