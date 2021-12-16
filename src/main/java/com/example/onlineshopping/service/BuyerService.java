@@ -28,5 +28,7 @@ public interface BuyerService {
 
     List<Product> clearShoppingCart(long id);
 
+    List<Seller> followSeller(long id, Seller seller);
+
     Invoice processShoppingCart(OrderAddressRequest orderAddresses, long id);
 }

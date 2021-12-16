@@ -3,6 +3,7 @@ package com.example.onlineshopping.service.implementation;
 
 import com.example.onlineshopping.domain.*;
 import com.example.onlineshopping.dto.OrderAddressRequest;
+import com.example.onlineshopping.globalExecption.UserNotFoundException;
 import com.example.onlineshopping.repository.*;
 import com.example.onlineshopping.service.BuyerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -110,6 +112,20 @@ public class BuyerServiceImpl implements BuyerService {
         ShoppingCart shoppingCart = shoppingCartRepository.findShoppingCartByBuyer(buyer);
         shoppingCart.setProducts(new ArrayList<>());
         return shoppingCartRepository.save(shoppingCart).getProducts();
+    }
+
+    @Override
+    public List<Seller> followSeller(long id, Seller seller){
+        Buyer customer = buyerRepository.findById(id).get();
+        if(customer == null)
+            throw new UserNotFoundException("Buyer with id of :"+id+" Not found");
+        List<Seller> sellers = (List<Seller>) customer.getFollowing();
+        if(sellers == null)
+            sellers = new ArrayList<>();
+        sellers.add(seller);
+        customer.setFollowing((Set<Seller>) sellers);
+        buyerRepository.save(customer);
+        return  sellers;
     }
 
     @Override

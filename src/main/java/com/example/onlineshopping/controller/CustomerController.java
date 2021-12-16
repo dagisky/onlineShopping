@@ -2,13 +2,17 @@ package com.example.onlineshopping.controller;
 
 import com.example.onlineshopping.domain.*;
 import com.example.onlineshopping.dto.OrderAddressRequest;
+import com.example.onlineshopping.globalExecption.UserNotFoundException;
 import com.example.onlineshopping.service.BuyerService;
+import com.example.onlineshopping.service.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @CrossOrigin("http://localhost:3000")
 @RestController
@@ -16,6 +20,9 @@ public class CustomerController {
 
     @Autowired
     BuyerService buyerService;
+
+    @Autowired
+    SellerService sellerService;
 
     @GetMapping("/buyers/{id}")
     public EntityModel<Buyer> getCustomerById(@PathVariable long id){
@@ -79,8 +86,6 @@ public class CustomerController {
         return buyerService.findBuyerOrdersById(id);
      }
 
-
-
     @GetMapping("/buyers/{id}/shoppingcart")
     public List<Product> getShoppingCart(@PathVariable long id){
         return buyerService.findOrCreateShoppingCart(id);
@@ -98,10 +103,30 @@ public class CustomerController {
 
     @PostMapping("/buyers/{id}/shoppingcart/process")
     public Invoice processShoppingCart(@RequestBody OrderAddressRequest orderAddresses, @PathVariable long id){
+        /**
+         * Input : OrderAddressRequest
+         * Returns: Invoice Object
+         * **/
         return buyerService.processShoppingCart(orderAddresses, id);
     }
 
-    // @PostMapping("/buyers/{id}/sellers/{sellerId}/follow")
+    @PostMapping("/buyers/{id}/sellers/{sellerId}/follow")
+    public List<Seller> followSeller(@PathVariable long id, @PathVariable long sellerId){
+        /**
+         * Input: id:
+         *      Customer [Buyer] id
+         *      sellerId: long Seller or Retailer id
+         * Returns:
+         *      List<Sellers>
+         * **/
+        Seller seller = sellerService.getSellerById(sellerId);
+        return buyerService.followSeller(id, seller);
+    }
+
+
+
+
+
     // @PostMapping("/buyers/{id}/sellers/{sellerId}/unfollow")
     // @GetMapping("/buyers/{id}/sellers/{sellerId}") // following boolean
 

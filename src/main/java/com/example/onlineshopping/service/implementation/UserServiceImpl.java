@@ -1,12 +1,18 @@
 package com.example.onlineshopping.service.implementation;
 
+import com.example.onlineshopping.domain.Buyer;
+import com.example.onlineshopping.domain.Seller;
 import com.example.onlineshopping.domain.User;
 import com.example.onlineshopping.dto.UserAvailabilityRequest;
+import com.example.onlineshopping.globalExecption.UserNotFoundException;
 import com.example.onlineshopping.repository.UserRepository;
 import com.example.onlineshopping.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -38,8 +44,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(long id) {
         userRepository.deleteById(id);
-
     }
+
+
 
     @Override
     public User isUsernameAvailable(UserAvailabilityRequest userAvailabilityRequest) {
