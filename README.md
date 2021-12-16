@@ -1,5 +1,10 @@
 # Online Shopping App
-
-## Motivation
+Online shopping mini e-commerce for WAA final project. The project uses 
+Spring as a back-end and React as front-end.
 ## Installation
-## Licence and Agreement
+- Java-16
+
+## Licence and Acknowledgement
+ MIU
+
+
