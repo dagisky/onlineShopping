@@ -143,6 +143,20 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     @Override
+    public Boolean isFollowing(long id, long seller_id) {
+        Buyer customer = buyerRepository.findById(id).get();
+        if(customer == null)
+            throw new UserNotFoundException("Buyer with id of :"+id+" Not found");
+        List<Seller> sellers = (List<Seller>) customer.getFollowing();
+        if(sellers == null)
+            sellers = new ArrayList<>();
+        Seller seller = sellers.stream().filter(s -> s.getId() == seller_id).findFirst().orElse(null);
+        if(seller == null)
+            return false;
+        return true;
+    }
+
+    @Override
     public Invoice processShoppingCart(OrderAddressRequest orderAddresses, long id) {
         List<Product> products = findOrCreateShoppingCart(id);
         if(products.size() > 0){
@@ -168,4 +182,6 @@ public class BuyerServiceImpl implements BuyerService {
         }
         return null;
     }
+
+
 }

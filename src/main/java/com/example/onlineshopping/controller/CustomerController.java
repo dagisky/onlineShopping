@@ -2,7 +2,6 @@ package com.example.onlineshopping.controller;
 
 import com.example.onlineshopping.domain.*;
 import com.example.onlineshopping.dto.OrderAddressRequest;
-import com.example.onlineshopping.globalExecption.UserNotFoundException;
 import com.example.onlineshopping.service.BuyerService;
 import com.example.onlineshopping.service.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -130,6 +129,18 @@ public class CustomerController {
          *      List<Sellers>
          * **/
         return buyerService.unFollowSeller(id, sellerId);
+    }
+
+    @GetMapping("/buyers/{id}/sellers/{sellerId}")
+    public boolean isFollowing(@PathVariable long id, @PathVariable long sellerId){
+        /**
+         * Input: id:
+         *      Customer [Buyer] id
+         *      sellerId: long Seller or Retailer id
+         * Returns:
+         *      List<Sellers>
+         * **/
+        return buyerService.isFollowing(id, sellerId);
     }
 
 

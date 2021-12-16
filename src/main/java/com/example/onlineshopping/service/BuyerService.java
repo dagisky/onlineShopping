@@ -32,5 +32,7 @@ public interface BuyerService {
 
     List<Seller> unFollowSeller(long id, long seller_id);
 
+    Boolean isFollowing(long id, long seller_id);
+
     Invoice processShoppingCart(OrderAddressRequest orderAddresses, long id);
 }
