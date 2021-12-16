@@ -14,12 +14,25 @@ public class AddressController {
     @Autowired
     AddressService addressService;
 
-    @PatchMapping("/addresses/{id}") // patch an address
+    @PatchMapping("/addresses/{id}")
     public Address updateAddress(@RequestBody AddressRequest addressRequest, @PathVariable long id){
+        /**
+         * Input:
+         *      Request Body: Address Request object
+         *      Path param: address id
+         *  Returns:
+         *      Address Object**/
         return addressService.updateAddress(addressRequest, id);
     }
-    @DeleteMapping("/addresses/{id}") // delete an address
-    public void deleteAddress(@PathVariable long id){
+    @DeleteMapping("/addresses/{id}")
+    public void removeAddress(@PathVariable long id){
+        /**
+         * Address is removed by id
+         * Input:
+         *     path variable: id: long
+         * Returns Void
+         *
+         * **/
         addressService.deleteAddress(id);
     }
 }

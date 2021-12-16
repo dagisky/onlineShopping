@@ -9,12 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @CrossOrigin("http://localhost:3000")
 @RestController
-public class SellerController {
+public class RetailerController {
 
     @Autowired
     SellerService sellerService;
