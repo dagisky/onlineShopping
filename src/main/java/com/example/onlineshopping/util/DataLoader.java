@@ -7,6 +7,7 @@ import com.example.onlineshopping.service.ReviewService;
 import com.example.onlineshopping.service.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -75,7 +76,7 @@ public class DataLoader implements CommandLineRunner {
         Set<Role> roleSet = new HashSet<>();
         roleSet.add(roleRepository.findById(2L).get());
         seller.setUsername("seller");
-        seller.setPassword("foo"); //new BCryptPasswordEncoder().encode("foo")
+        seller.setPassword(new BCryptPasswordEncoder().encode("foo")); //
         seller.setRoles(roleSet);
         sellerRepository.saveAll(Arrays.asList(seller));
         StreamSupport.stream(sellerRepository.findAll().spliterator(),false)
@@ -88,7 +89,7 @@ public class DataLoader implements CommandLineRunner {
         Set<Role> roleSet = new HashSet<>();
         roleSet.add(roleRepository.findById(3L).get());
         buyer.setUsername("buyer");
-        buyer.setPassword("foo"); //new BCryptPasswordEncoder().encode("lolo")
+        buyer.setPassword(new BCryptPasswordEncoder().encode("lolo")); //
         buyer.setRoles(roleSet);
         Buyer savedBuyer = buyerRepository.save(buyer);
         ShoppingCart shoppingCart = new ShoppingCart();
@@ -105,7 +106,7 @@ public class DataLoader implements CommandLineRunner {
         Set<Role> roleSet = new HashSet<>();
         roleSet.add(roleRepository.findById(1L).get());
         admin.setUsername("admin");
-        admin.setPassword("foololo"); //new BCryptPasswordEncoder().encode("foololo")
+        admin.setPassword(new BCryptPasswordEncoder().encode("foololo")); //
         admin.setRoles(roleSet);
         adminRepository.save(admin);
         StreamSupport.stream(adminRepository.findAll().spliterator(),false)
